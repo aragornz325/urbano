@@ -1,5 +1,3 @@
-import { Course } from 'src/course/course.entity';
-import { User } from 'src/user/user.entity';
 import {
   BaseEntity,
   CreateDateColumn,
@@ -8,6 +6,9 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
+
+import { Course } from '../../course/course.entity';
+import { User } from '../../user/entity/user.entity';
 
 @Entity('enrollments')
 @Unique(['user', 'course'])

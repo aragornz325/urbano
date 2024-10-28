@@ -2,9 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Favorite } from './favorites.entity';
-import { Course } from 'src/course/course.entity';
-import { User } from 'src/user/user.entity';
-import { UserService } from 'src/user/user.service';
+import { Course } from '../course.entity';
+import { User } from '../../user/entity/user.entity';
+import { UserService } from '../../user/services/user.service';
 
 @Injectable() // Asegúrate de que esté aquí
 export class FavoriteService {

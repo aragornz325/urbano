@@ -1,5 +1,3 @@
-import { Course } from 'src/course/course.entity';
-import { User } from 'src/user/user.entity';
 import {
   BaseEntity,
   Entity,
@@ -7,6 +5,9 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
+
+import { User } from '../../user/entity/user.entity';
+import { Course } from '../course.entity';
 
 @Entity('favorites')
 //unique restriction

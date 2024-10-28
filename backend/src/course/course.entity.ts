@@ -8,7 +8,7 @@ import {
 
 import { Favorite } from './favorites/favorites.entity';
 
-import { Content } from '../content/content.entity';
+import { Content } from '../content/entity/content.entity';
 import { Enrollment } from 'src/enrollment/entities/enrollment.entity';
 
 @Entity()

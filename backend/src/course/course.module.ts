@@ -1,8 +1,8 @@
 import { forwardRef, Module } from '@nestjs/common';
 
 import { ContentModule } from '../content/content.module';
-import { CourseController } from './course.controller';
-import { CourseService } from './course.service';
+import { CourseController } from './controller/course.controller';
+import { CourseService } from './services/course.service';
 import { FavoriteService } from './favorites/favorites.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Favorite } from './favorites/favorites.entity';

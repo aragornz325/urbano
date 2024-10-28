@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { EnrollmentService } from './enrollment.service';
-import { EnrollmentController } from './enrollment.controller';
+import { EnrollmentService } from './services/enrollment.service';
+import { EnrollmentController } from './controller/enrollment.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Enrollment } from './entities/enrollment.entity';
 import { UserModule } from 'src/user/user.module';

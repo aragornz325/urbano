@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Role } from '../enums/role.enum';
-import { UserController } from './controller/user.controller';
-import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { Role } from '../../enums/role.enum';
+import { UserController } from './user.controller';
+import { CreateUserDto, UpdateUserDto } from '../user.dto';
 import { UserService } from './user.service';
 
 const MockService = {

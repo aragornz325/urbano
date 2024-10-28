@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as mocks from 'node-mocks-http';
 
-import { AuthController } from './auth.controller';
-import { LoginDto } from './DTO/auth.dto';
-import { AuthService } from './services/auth.service';
+import { LoginDto } from '../DTO/auth.dto';
+import { AuthService } from './auth.service';
 
 const MockService = {
   login: jest.fn().mockImplementation((loginDto: LoginDto) => {
@@ -25,12 +24,11 @@ const MockService = {
   }),
 };
 
-describe('AuthController', () => {
-  let controller: AuthController;
+describe('AuthService', () => {
+  let service: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
       providers: [
         {
           provide: AuthService,
@@ -39,11 +37,11 @@ describe('AuthController', () => {
       ],
     }).compile();
 
-    controller = module.get<AuthController>(AuthController);
+    service = module.get<AuthService>(AuthService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 
   describe('login', () => {
@@ -51,7 +49,7 @@ describe('AuthController', () => {
       const req = mocks.createRequest();
       req.res = mocks.createResponse();
 
-      const loginResponse = await controller.login(
+      const loginResponse = await service.login(
         { username: 'test', password: 'test' },
         req.res,
       );
@@ -68,7 +66,7 @@ describe('AuthController', () => {
     it('should get true', async () => {
       const req = mocks.createRequest();
       req.res = mocks.createResponse();
-      const result = await controller.logout(req, req.res);
+      const result = await service.logout(req, req.res);
 
       expect(result).toBe(true);
     });
@@ -78,7 +76,7 @@ describe('AuthController', () => {
     it('should get login response', async () => {
       const req = mocks.createRequest();
 
-      const loginResponse = await controller.refresh(req, req.res);
+      const loginResponse = await service.refresh('token', req.res);
       expect(loginResponse).toEqual({
         token: 'token',
         user: {

@@ -1,25 +1,30 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
-import {
-  IsDate,
-  IsDateString,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class CourseQueryDto {
-  @ApiProperty()
+export class CreateCourseDto {
   @IsNotEmpty()
+  @IsString()
   name: string;
 
-  @ApiProperty()
   @IsNotEmpty()
-  email: string;
+  @IsString()
+  description: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  message: string;
-
+  @IsString()
+  imageUrl: string;
 }
 
+export class UpdateCourseDto {
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsString()
+  imageUrl?: string;
+}

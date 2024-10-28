@@ -7,7 +7,7 @@ import * as morgan from 'morgan';
 
 import { AppModule } from './app.module';
 import { Role } from './enums/role.enum';
-import { User } from './user/user.entity';
+import { User } from './user/entity/user.entity';
 
 async function createAdminOnFirstUse() {
   const admin = await User.findOne({ where: { username: 'admin' } });
