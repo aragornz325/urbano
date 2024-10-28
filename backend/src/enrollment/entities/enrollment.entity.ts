@@ -1,21 +1,13 @@
-import {
-  BaseEntity,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+import { CreateDateColumn, Entity, ManyToOne, Unique } from 'typeorm';
 
-import { Course } from '../../course/course.entity';
+import { Course } from '../../course/entity/course.entity';
 import { User } from '../../user/entity/user.entity';
+import { IEnrollment } from '../../common/interfaces/Enrollment.interface';
+import { BaseEntityCustom } from '../../common/entity/BaseEntityCustom';
 
 @Entity('enrollments')
 @Unique(['user', 'course'])
-export class Enrollment extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Enrollment extends BaseEntityCustom implements IEnrollment {
   @ManyToOne(() => User, (user) => user.enrollments, { onDelete: 'CASCADE' })
   user: User;
 
@@ -23,6 +15,9 @@ export class Enrollment extends BaseEntity {
     onDelete: 'CASCADE',
   })
   course: Course;
+
+  @CreateDateColumn()
+  dateCreated: Date;
 
   @CreateDateColumn()
   enrolledAt: Date;

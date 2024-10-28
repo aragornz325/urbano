@@ -16,7 +16,7 @@ services:
     container_name: database_dev
     environment:
       POSTGRES_DB: challengedb
-      POSTGRES_USER: gonza
+      POSTGRES_USER: rodrigo
       POSTGRES_PASSWORD: challengeps
     volumes:
       - db_data:/var/lib/postgresql/data

@@ -1,11 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, ILike } from 'typeorm';
+import { Repository, ILike, FindManyOptions } from 'typeorm';
 
 import { CreateUserDto, UpdateUserDto } from '../DTO/user.dto';
 import { User } from '../entity/user.entity';
-import { UserQuery } from '../user.query';
+import { UserQueryDto } from '../DTO/user.query.dto';
 
 @Injectable()
 export class UserService {
@@ -13,6 +13,8 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
+
+  private readonly logger = new Logger(UserService.name);
 
   async save(createUserDto: CreateUserDto): Promise<User> {
     const user = await this.findByUsername(createUserDto.username);
@@ -29,26 +31,43 @@ export class UserService {
     return this.userRepository.save(createUserDto);
   }
 
-  async findAll(userQuery: UserQuery): Promise<User[]> {
-    Object.keys(userQuery).forEach((key) => {
-      if (key !== 'role') {
-        userQuery[key] = ILike(`%${userQuery[key]}%`);
+  async findAll(userQuery: UserQueryDto): Promise<{ users: User[], totalItems: number }> {
+    try {
+      const { page, perPage, role, ...searchFields } = userQuery;
+      
+      const whereClause: any = {};
+      Object.keys(searchFields).forEach((key) => {
+        whereClause[key] = ILike(`%${searchFields[key]}%`);
+      });
+      if (role) {
+        this.logger.log('add role to where clause');
+        whereClause.role = role;
       }
-    });
-
-    return await this.userRepository.find({
-      where: userQuery,
-      order: {
-        firstName: 'ASC',
-        lastName: 'ASC',
-      },
-    });
+      
+      this.logger.log('count total items');
+      const totalItems = await User.count({ where: whereClause });
+      this.logger.log('make find options');
+      const findOptions: FindManyOptions<User> = {
+        where: whereClause,
+        take: perPage || 10,
+        skip: page ? (page - 1) * (perPage || 10) : 0,
+      };
+  
+      this.logger.log('find users');
+      const users = await User.find(findOptions);
+      return { users, totalItems };
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
+  
 
   async findById(id: string): Promise<User> {
-    const user = await this.userRepository.findOne(id); // Usa el repositorio inyectado
+    const user = await this.userRepository.findOne(id);
 
     if (!user) {
+      this.logger.error(`Could not find user with matching id ${id}`);
       throw new HttpException(
         `Could not find user with matching id ${id}`,
         HttpStatus.NOT_FOUND,

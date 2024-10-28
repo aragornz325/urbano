@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen } from 'react-feather';
+import { BookOpen, Loader } from 'react-feather';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 
@@ -70,7 +70,13 @@ export default function Content() {
         onNameChange={setName}
         onDescriptionChange={setDescription}
       />
-      <ContentsTable data={data} isLoading={isLoading} courseId={id} />
+      {!isLoading ? (
+        <ContentsTable isLoading={isLoading} data={data} courseId={id} />
+      ) : (
+        <div className="flex justify-center items-center h-full">
+          <Loader size={30} className="animate-spin" />
+        </div>
+      )}
       <AddContentModal
         show={addContentShow}
         onClose={() => setAddContentShow(false)}

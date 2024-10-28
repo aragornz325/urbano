@@ -26,7 +26,7 @@ import { ContentService } from '../../content/services/content.service';
 import { Roles } from '../../decorators/roles.decorator';
 import { Role } from '../../enums/role.enum';
 import { CreateCourseDto, UpdateCourseDto } from '../DTO/course.dto';
-import { Course } from '../course.entity';
+import { Course } from '../entity/course.entity';
 import { CourseQueryDto } from '../DTO/course.query.dto';
 import { CourseService } from '../services/course.service';
 import { FavoriteService } from '../favorites/favorites.service';
@@ -52,9 +52,10 @@ export class CourseController {
    */
   @Post()
   @Roles(Role.Admin, Role.Editor)
-  async save(@Body() createCourseDto: CreateCourseDto): Promise<Course> {
+  async save(@Body() createCourseDto: CreateCourseDto, @Req() req: Request): Promise<Course> {
     try {
-      return await this.courseService.save(createCourseDto);
+      const userId = req.user['userId'];
+      return await this.courseService.save(createCourseDto, userId);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -66,7 +67,7 @@ export class CourseController {
    * @returns {Promise<Course[]>}
    */
   @Get()
-  async findAll(@Query() courseQuery: CourseQueryDto): Promise<Course[]> {
+  async findAll(@Query() courseQuery: CourseQueryDto):  Promise<{ courses: Course[], totalItems: number }> {
     try {
       return await this.courseService.findAll(courseQuery);
     } catch (error) {
@@ -128,10 +129,12 @@ export class CourseController {
   @Roles(Role.Admin, Role.Editor)
   async saveContent(
     @Param('courseId') courseId: string,
-    @Body() createContentDto: CreateContentDto,
+    @Body() data: CreateContentDto,
+    @Req() req: Request,
   ): Promise<Content> {
     try {
-      return await this.contentService.save(courseId, createContentDto);
+      const userId = req.user['userId'];
+      return await this.contentService.save(courseId, data, userId);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

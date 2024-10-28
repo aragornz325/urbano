@@ -25,6 +25,7 @@ export class CloudinaryService {
 
       this.logger.log('Archivo recibido, iniciando proceso de subida...');
       const uploadStream = cloudinary.uploader.upload_stream(
+        {folder: 'courses' },
         (error, result) => {
           if (error) {
             this.logger.error(
@@ -43,7 +44,7 @@ export class CloudinaryService {
           this.logger.debug(
             `Resultado de Cloudinary: ${JSON.stringify(result)}`,
           );
-          resolve(result); // Devuelve el objeto completo de UploadApiResponse
+          resolve(result); 
         },
       );
 

@@ -9,11 +9,19 @@ class UserService {
     await apiService.post('/api/users', createUserRequest);
   }
 
-  async findAll(userQuery: UserQuery): Promise<User[]> {
+  async findAll(
+    data: UserQuery,
+  ): Promise<{ users: User[]; totalItems: number }> {
     return (
-      await apiService.get<User[]>('/api/users', {
-        params: userQuery,
-      })
+      await apiService.get<{ users: User[]; totalItems: number }>(
+        '/api/users',
+        {
+          params: data,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
     ).data;
   }
 

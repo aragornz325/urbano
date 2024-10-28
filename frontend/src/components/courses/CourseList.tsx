@@ -34,14 +34,14 @@ const CourseList: React.FC<CourseCardProps> = ({ name, description }) => {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           <p className="text-center">Loading...</p>
-        ) : data && data.length > 0 ? (
-          data.map((course) => (
+        ) : data.courses && data.courses.length > 0 ? (
+          data.courses.map((course) => (
             <CourseItem
               key={course.id}
               refetch={handleRefetch}
               course={{
                 ...course,
-                dateCreated: course.dateCreated,
+                createdAt: course.createdAt,
                 imageUrl: course.imageUrl,
               }}
             />

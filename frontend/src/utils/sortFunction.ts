@@ -21,7 +21,7 @@ export function sortData<T>(
     let aValue = a[orderBy];
     let bValue = b[orderBy];
 
-    if (orderBy === 'dateCreated') {
+    if (orderBy === 'createdAt') {
       aValue = new Date(aValue).getTime();
       bValue = new Date(bValue).getTime();
     } else if (typeof aValue === 'string' && typeof bValue === 'string') {

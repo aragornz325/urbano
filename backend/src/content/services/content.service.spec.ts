@@ -9,7 +9,7 @@ const MockService = {
     .mockImplementation((id: string, createContentDto: CreateContentDto) => {
       return {
         id: 'testid',
-        dateCreated: new Date(),
+        createdAt: new Date(),
         ...createContentDto,
       };
     }),
@@ -19,19 +19,19 @@ const MockService = {
         id: 'testid1',
         name: 'test1',
         description: 'test1',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
       {
         id: 'testid2',
         name: 'test2',
         description: 'test2',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
       {
         id: 'testid3',
         name: 'test3',
         description: 'test3',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
     ];
   }),
@@ -40,7 +40,7 @@ const MockService = {
       id,
       name: 'test',
       description: 'test',
-      dateCreated: new Date(),
+      createdAt: new Date(),
     };
   }),
   findByCourseIdAndId: jest
@@ -50,7 +50,7 @@ const MockService = {
         id,
         name: 'test',
         description: 'test',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       };
     }),
   findAllByCourseId: jest.fn().mockImplementation((id: string) => {
@@ -59,19 +59,19 @@ const MockService = {
         id: 'testid1',
         name: 'test1',
         description: 'test1',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
       {
         id: 'testid2',
         name: 'test2',
         description: 'test2',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
       {
         id: 'testid3',
         name: 'test3',
         description: 'test3',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
     ];
   }),
@@ -124,7 +124,7 @@ describe('ContentService', () => {
         id: 'testid',
         name: 'test',
         description: 'test',
-        dateCreated: date,
+        createdAt: date,
       });
     });
   });
@@ -148,7 +148,7 @@ describe('ContentService', () => {
         id: 'testid',
         name: 'test',
         description: 'test',
-        dateCreated: date,
+        createdAt: date,
       });
     });
   });
@@ -166,7 +166,7 @@ describe('ContentService', () => {
         id: 'testid',
         name: 'test',
         description: 'test',
-        dateCreated: date,
+        createdAt: date,
       });
     });
   });

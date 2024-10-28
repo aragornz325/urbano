@@ -24,6 +24,7 @@ import { CreateUserDto, UpdateUserDto } from '../DTO/user.dto';
 import { User } from '../entity/user.entity';
 import { UserQuery } from '../user.query';
 import { UserService } from '../services/user.service';
+import { UserQueryDto } from '../DTO/user.query.dto';
 
 @Controller('users')
 @ApiTags('Users')
@@ -42,7 +43,7 @@ export class UserController {
 
   @Get()
   @Roles(Role.Admin)
-  async findAll(@Query() userQuery: UserQuery): Promise<User[]> {
+  async findAll(@Query() userQuery: UserQueryDto): Promise<{ users: User[], totalItems: number }> {
     return await this.userService.findAll(userQuery);
   }
 

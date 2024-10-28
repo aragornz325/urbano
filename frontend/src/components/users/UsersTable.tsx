@@ -11,9 +11,16 @@ import DeleteUserModal from './DeleteUserModal';
 interface UsersTableProps {
   data: User[];
   isLoading: boolean;
+  totalItems: number;
+  perPage: number;
 }
 
-export default function UsersTable({ data, isLoading }: UsersTableProps) {
+export default function UsersTable({
+  data,
+  isLoading,
+  totalItems,
+  perPage,
+}: UsersTableProps) {
   const [deleteShow, setDeleteShow] = useState(false);
   const [updateShow, setUpdateShow] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -102,6 +109,7 @@ export default function UsersTable({ data, isLoading }: UsersTableProps) {
         currentPage={currentPage}
         perPage={5}
         hasNextPage={false}
+        totalItems={totalItems}
       />
     </>
   );

@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -7,13 +6,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Course } from '../../course/course.entity';
+import { Course } from '../../course/entity/course.entity';
+import { IContent } from '../../common/interfaces/Contetnt.interface';
+import { BaseEntityCustom } from '../../common/entity/BaseEntityCustom';
 
 @Entity()
-export class Content extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Content extends BaseEntityCustom implements IContent {
   @Column()
   name: string;
 
@@ -23,10 +21,12 @@ export class Content extends BaseEntity {
   @Column()
   dateCreated: Date;
 
-  @Column({ select: false, nullable: false })
-  courseId: string;
-
   @ManyToOne(() => Course, (course) => course.contents, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'courseId' })
   course: Course;
+
 }
+
+
+
+

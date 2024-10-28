@@ -13,7 +13,7 @@ interface CourseItemProps {
     name: string;
     description: string;
     imageUrl?: string;
-    dateCreated: Date;
+    createdAt: Date;
   };
   refetch: () => void;
 }

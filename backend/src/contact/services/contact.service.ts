@@ -21,7 +21,7 @@ export class ContactService {
   async create(createContactDto: CreateContactDto) {
     this.logger.log('Creating contact message');
     try {
-      const contact = this.contactMessageRepository.create(createContactDto);
+      const contact = this.contactMessageRepository.create({...createContactDto, dateCreated: new Date()});
       await this.contactMessageRepository.save(contact);
       await this.sendEmail(contact);
       return contact;

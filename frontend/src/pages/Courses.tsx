@@ -6,8 +6,7 @@ import { Layout, Modal } from '../components';
 import { CoursesTable } from '../components';
 import { AddCourseForm, ControlButtons } from '../components';
 import useAuth from '../hooks/useAuth';
-import { useCourses } from '../hooks/useCourse';
-import Course from '../models/course/Course';
+import { Course } from '../models/course/Course';
 import CreateCourseRequest from '../models/course/CreateCourseRequest';
 import apiService from '../services/ApiService';
 import courseService from '../services/CourseService';
@@ -21,12 +20,12 @@ export default function Courses() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(4);
+  const [totalItems, setTotalItems] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
-  const [tableKey, setTableKey] = useState(0);
   const { authenticatedUser } = useAuth();
   const [listCourses, setListCourses] = useState<Course[]>([]);
 
-  const { data, isLoading, refetch } = useQuery(
+  const { isLoading, refetch } = useQuery(
     ['courses', name, description, currentPage, perPage],
     () =>
       courseService.findAll({ name, description, page: currentPage, perPage }),
@@ -34,8 +33,10 @@ export default function Courses() {
       enabled: false,
       keepPreviousData: true,
       onSuccess: (fetchedData) => {
-        setListCourses(fetchedData);
-        setHasNextPage(fetchedData.length === perPage);
+        console.log(fetchedData);
+        setListCourses(fetchedData.courses);
+        setTotalItems(fetchedData.totalItems);
+        setHasNextPage(fetchedData.courses.length === perPage);
       },
     },
   );
@@ -44,14 +45,13 @@ export default function Courses() {
     (page: number, perPage: number) => {
       setCurrentPage(page);
       setPerPage(perPage);
-      setTableKey((prevKey) => prevKey + 1);
     },
     [refetch],
   );
 
   useEffect(() => {
     refetch().then((result) => {
-      setListCourses(result.data || []);
+      setListCourses(result.data.courses || []);
     });
   }, [currentPage, refetch]);
 
@@ -143,6 +143,7 @@ export default function Courses() {
           fetchCourses={fetchCourses}
           currentPage={currentPage}
           refetch={refetch}
+          totalItems={totalItems}
         />
       ) : (
         <tr>

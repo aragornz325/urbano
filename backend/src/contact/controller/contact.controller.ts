@@ -1,13 +1,10 @@
 import {
   Body,
   Controller,
-  Delete,
-  Get,
   HttpStatus,
   HttpCode,
-  Param,
-  Patch,
   Post,
+  HttpException,
 } from '@nestjs/common';
 
 import { ContactService } from '../services/contact.service';
@@ -22,7 +19,11 @@ export class ContactController {
   @Post()
   @HttpCode(HttpStatus.OK)
   create(@Body() createContactDto: CreateContactDto) {
+  try {
     return this.contactService.create(createContactDto);
+    } catch (error) {
+      new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
 }

@@ -24,18 +24,22 @@ const Users: React.FC = () => {
   const [addUserShow, setAddUserShow] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
+  const [perPage, setPerPage] = useState(5);
 
   const { data, isLoading, refetch } = useQuery(
     ['users', firstName, lastName, username, role],
     async () => {
-      return (
-        await userService.findAll({
-          firstName: firstName.length >= 3 ? firstName : undefined,
-          lastName: lastName.length >= 3 ? lastName : undefined,
-          username: username.length >= 3 ? username : undefined,
-          role: role || undefined,
-        })
-      ).filter((user) => user.id !== authenticatedUser.id);
+      const response = await userService.findAll({
+        firstName: firstName.length >= 3 ? firstName : undefined,
+        lastName: lastName.length >= 3 ? lastName : undefined,
+        username: username.length >= 3 ? username : undefined,
+        role: role || undefined,
+      });
+      return response;
+    },
+    {
+      onSuccess: (data) => setTotalItems(data.totalItems),
     },
   );
 
@@ -89,7 +93,14 @@ const Users: React.FC = () => {
         setRole={setRole}
       />
 
-      {data && <UsersTable data={data} isLoading={isLoading} />}
+      {data && (
+        <UsersTable
+          totalItems={totalItems}
+          perPage={perPage}
+          data={data.users}
+          isLoading={isLoading}
+        />
+      )}
 
       <AddUserModal
         show={addUserShow}

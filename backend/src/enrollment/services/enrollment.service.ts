@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Enrollment } from '../entities/enrollment.entity';
 import { User } from '../../user/entity/user.entity';
-import { Course } from 'src/course/course.entity';
+import { Course } from '../../course/entity/course.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,6 +18,7 @@ export class EnrollmentService {
     private readonly courseService: CourseService,
   ) {}
   private readonly logger = new Logger(EnrollmentService.name);
+  
 
   /**
    * Enroll a user in a course

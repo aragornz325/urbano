@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 import { User } from '../../user/entity/user.entity';
-import { Course } from '../course.entity';
+import { Course } from '../entity/course.entity';
 
 @Entity('favorites')
 //unique restriction

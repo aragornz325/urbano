@@ -1,4 +1,4 @@
-import Course from '../models/course/Course';
+import { Course } from '../models/course/Course';
 import CourseQuery from '../models/course/CourseQuery';
 import CreateCourseRequest from '../models/course/CreateCourseRequest';
 import UpdateCourseRequest from '../models/course/UpdateCourseRequest';
@@ -21,14 +21,19 @@ class CourseService {
     });
   }
 
-  async findAll(data: CourseQuery): Promise<Course[]> {
+  async findAll(
+    data: CourseQuery,
+  ): Promise<{ courses: Course[]; totalItems: number }> {
     return (
-      await apiService.get<Course[]>('/api/courses', {
-        params: data,
-        headers: {
-          'Content-Type': 'application/json',
+      await apiService.get<{ courses: Course[]; totalItems: number }>(
+        '/api/courses',
+        {
+          params: data,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
     ).data;
   }
 

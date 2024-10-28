@@ -7,6 +7,9 @@ import AddContentModal from './content/AddContentModal';
 import ContentActions from './content/ContentActions';
 import ContentFilter from './content/ContentFilter';
 import ContentsTable from './content/ContentsTable';
+import ContentTableRows from './content/ContentTableRows';
+import DeleteContentModal from './content/DeleteContentModal';
+import UpdateContentModal from './content/UpdateContentModal';
 import AddCourseForm from './courses/AddCurseForm';
 import CourseCard from './courses/CourseCard';
 import CourseItem from './courses/CourseItem';
@@ -49,12 +52,14 @@ export {
   ContentActions,
   ContentFilter,
   ContentsTable,
+  ContentTableRows,
   ControlButtons,
   CourseCard,
   CourseItem,
   CourseList,
   CoursesTable,
   CustomButton,
+  DeleteContentModal,
   DeleteUserModal,
   DropdownSort,
   ErrorMessage,
@@ -69,6 +74,7 @@ export {
   Table,
   TableItem,
   ThemeButton,
+  UpdateContentModal,
   UpdateCourseModal,
   UpdateProfile,
   UpdateProfileForm,

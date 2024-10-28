@@ -7,7 +7,7 @@ const MockService = {
   save: jest.fn().mockImplementation((createCourseDto: CreateCourseDto) => {
     return {
       id: 'testid',
-      dateCreated: new Date(),
+      createdAt: new Date(),
       ...createCourseDto,
     };
   }),
@@ -17,19 +17,19 @@ const MockService = {
         id: 'testid1',
         name: 'test1',
         description: 'test1',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
       {
         id: 'testid2',
         name: 'test2',
         description: 'test2',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
       {
         id: 'testid3',
         name: 'test3',
         description: 'test3',
-        dateCreated: new Date(),
+        createdAt: new Date(),
       },
     ];
   }),
@@ -38,7 +38,7 @@ const MockService = {
       id,
       name: 'test',
       description: 'test',
-      dateCreated: new Date(),
+      createdAt: new Date(),
     };
   }),
   update: jest
@@ -105,7 +105,7 @@ describe('CourseService', () => {
         id: 'testid',
         name: 'test',
         description: 'test',
-        dateCreated: date,
+        createdAt: date,
       });
     });
   });

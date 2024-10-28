@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Favorite } from './favorites.entity';
-import { Course } from '../course.entity';
+import { Course } from '../entity/course.entity';
 import { User } from '../../user/entity/user.entity';
 import { UserService } from '../../user/services/user.service';
 

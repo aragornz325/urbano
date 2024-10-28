@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { PaginationControls, Table } from '../../components';
-import useAuth from '../../hooks/useAuth';
-import Course from '../../models/course/Course';
+import { Course } from '../../models/course/Course';
 import UpdateCourseRequest from '../../models/course/UpdateCourseRequest';
 import courseService from '../../services/CourseService';
 import { sortData } from '../../utils/sortFunction';
@@ -21,6 +20,7 @@ interface UsersTableProps {
   fetchCourses: (page: number, perPage: number) => void;
   currentPage: number;
   refetch: () => void;
+  totalItems: number;
 }
 
 export default function CoursesTable({
@@ -31,8 +31,8 @@ export default function CoursesTable({
   fetchCourses,
   currentPage,
   refetch,
+  totalItems,
 }: UsersTableProps) {
-  const { authenticatedUser } = useAuth();
   const queryClient = useQueryClient();
   const [selectedCourse, setSelectedCourse] = useState<Partial<Course> | null>(
     null,
@@ -120,7 +120,6 @@ export default function CoursesTable({
               <CourseRow
                 key={`${currentPage}-${course.id}-${Math.random()}`}
                 course={course}
-                authenticatedUser={authenticatedUser}
                 setDeleteShow={setDeleteShow}
                 setUpdateShow={setUpdateShow}
                 setSelectedCourse={setSelectedCourse}
@@ -160,6 +159,7 @@ export default function CoursesTable({
         currentPage={currentPage}
         perPage={perPage}
         hasNextPage={hasNextPage}
+        totalItems={totalItems}
       />
     </>
   );

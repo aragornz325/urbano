@@ -7,7 +7,7 @@ interface CourseCardProps {
     name: string;
     description: string;
     imageUrl?: string;
-    dateCreated: Date;
+    createdAt: Date;
   };
   darkMode: boolean;
   isFavorite: boolean;
@@ -61,7 +61,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
           }`}
         >
           Created on{' '}
-          {new Date(course.dateCreated).toLocaleDateString('en-US', {
+          {new Date(course.createdAt).toLocaleDateString('en-US', {
             day: 'numeric',
             month: 'short',
             year: 'numeric',

@@ -399,7 +399,7 @@
 							"\r",
 							"    pm.expect(jsonData.name).to.eql(\"test\");\r",
 							"    pm.expect(jsonData.description).to.eql(\"test\");\r",
-							"    pm.expect(jsonData.dateCreated).to.match(/\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?/gm)\r",
+							"    pm.expect(jsonData.createdAt).to.match(/\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?/gm)\r",
 							"    pm.expect(jsonData.id).to.eql(id);\r",
 							"});"
 						],
@@ -510,7 +510,7 @@
 							"    pm.expect(jsonData.id).to.eql(id);\r",
 							"    pm.expect(jsonData.name).to.eql(\"test\");\r",
 							"    pm.expect(jsonData.description).to.eql(\"test\");\r",
-							"    pm.expect(jsonData.dateCreated).to.match(/\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?/gm);\r",
+							"    pm.expect(jsonData.createdAt).to.match(/\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?/gm);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -628,7 +628,7 @@
 							"    pm.expect(jsonData.courseId).to.eql(course_id);\r",
 							"    pm.expect(jsonData.name).to.eql(\"test\");\r",
 							"    pm.expect(jsonData.description).to.eql(\"test\");\r",
-							"    pm.expect(jsonData.dateCreated).to.match(/\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?/gm)\r",
+							"    pm.expect(jsonData.createdAt).to.match(/\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?/gm)\r",
 							"    pm.expect(jsonData.id).to.eql(content_id);\r",
 							"});"
 						],

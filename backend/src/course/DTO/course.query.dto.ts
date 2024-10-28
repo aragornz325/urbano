@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CourseQueryDto {
@@ -29,16 +30,20 @@ export class CourseQueryDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsString()
-  limit?: string;
+  @Type(() => Number)
+  @IsNumber()
+  limit?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsString()
-  page?: string;
+  @Type(() => Number)
+  @IsNumber()
+  page?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsString()
-  perPage?: string;
+  @Type(() => Number)
+  @IsNumber()
+  perPage?: number;
 }
+

@@ -1,14 +1,16 @@
 import { Exclude } from 'class-transformer';
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany } from 'typeorm';
 
 import { Favorite } from '../../course/favorites/favorites.entity';
 import { Role } from '../../enums/role.enum';
 import { Enrollment } from '../../enrollment/entities/enrollment.entity';
+import { Course } from '../../course/entity/course.entity';
+import { Content } from '../../content/entity/content.entity';
+import { IUser } from '../../common/interfaces/User.interface';
+import { BaseEntityCustom } from '../../common/entity/BaseEntityCustom';
 
 @Entity()
-export class User extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class User extends BaseEntityCustom implements IUser {
 
   @Column()
   firstName: string;
@@ -18,6 +20,9 @@ export class User extends BaseEntity {
 
   @Column()
   username: string;
+
+  @CreateDateColumn()
+  dateCreated: Date;
 
   @Column()
   @Exclude()
@@ -44,4 +49,8 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Enrollment, (enrollment) => enrollment.user)
   enrollments: Enrollment[];
+
+  @OneToMany(() => Course, (course) => course.createdBy)
+  courses: Course[];
 }
+
