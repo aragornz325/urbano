@@ -1,155 +1,97 @@
-# Admin Panel Project
+# Proyecto de Backend y Frontend con Docker
 
-# Assumptions
+Este proyecto es una aplicación de backend y frontend desarrollada en Node.js, PostgreSQL y React, todo desplegado en contenedores Docker. Aquí encontrarás toda la información necesaria para instalar, configurar y ejecutar el proyecto de manera eficiente.
 
-- User can have only 1 role.
-- 3 Roles: Admin, Editor, User (Authorizations of roles are described down below)
-- There are 3 data types. Users, Courses and Contents.
-- Courses can have multiple contents.
+## 🚀 Tecnologías Utilizadas
 
-**Admin**
+- **Backend**: Node.js (NestJS)
+- **Frontend**: React (Create React App)
+- **Base de Datos**: PostgreSQL
+- **Contenedores**: Docker y Docker Compose
 
-| Table    | Read | Write | Update | Delete |
-| -------- | ---- | ----- | ------ | ------ |
-| Users    | ✓    | ✓     | ✓      | ✓      |
-| Courses  | ✓    | ✓     | ✓      | ✓      |
-| Contents | ✓    | ✓     | ✓      | ✓      |
+## ⚙️ Configuración del Proyecto
 
-**Editor**
+### Prerrequisitos
 
-| Table    | Read   | Write | Update | Delete |
-| -------- | ------ | ----- | ------ | ------ |
-| Users    | itself |       | itself |        |
-| Courses  | ✓      | ✓     | ✓      |        |
-| Contents | ✓      | ✓     | ✓      |        |
+Asegúrate de tener Docker y Docker Compose instalados en tu sistema.
 
-**User**
+### Instalación
 
-| Table    | Read   | Write | Update | Delete |
-| -------- | ------ | ----- | ------ | ------ |
-| Users    | itself |       | itself |        |
-| Courses  | ✓      |       |        |        |
-| Contents | ✓      |       |        |        |
+1. **Clona el repositorio**:
+   ```bash
+   git clone https://github.com/usuario/proyecto.git
+   cd proyecto
+   ```
 
-# Tech Stack
+2. **Configura las Variables de Entorno**: Asegúrate de que los valores en `docker-compose.yml` para `POSTGRES_USER`, `POSTGRES_PASSWORD`, y otros valores de entorno estén configurados correctamente según tus necesidades.
 
-1. **Backend**: NestJS
-2. **Frontend**: React
-3. **Database**: PostgreSQL
-4. **Testing**: Jest for unit testing. Postman for e2e testing.
+3. **Inicia los Contenedores**: Ejecuta el siguiente comando para construir y ejecutar los contenedores:
+   ```bash
+   docker-compose up --build
+   ```
 
-# Features
+4. **Acceso a la Aplicación**:
+   - **Frontend**: [http://localhost:3000](http://localhost:3000)
+   - **Backend (Swagger UI)**: [http://localhost:5000](http://localhost:5000)
 
-- Swagger Documentation
-- JWT authentication with refresh & access token
-- Role based authorization
-- Data filtering
-- Fully responsive design
+## 📝 Estructura del Proyecto
 
-# Authentication
+- **/backend**: Contiene el código del backend con NestJS y la configuración de la API.
+- **/frontend**: Contiene el código del frontend en React.
+- **docker-compose.yml**: Configuración para el despliegue de todos los servicios con Docker.
 
-Application generates 2 tokens on login. Access token and refresh token. Access token has a lifetime of 15 minutes and the refresh token has a lifetime of 1 year.
+## 🌐 Endpoints Principales (Backend)
 
-# First Login
+La API incluye varios endpoints que se pueden explorar a través de Swagger UI:
 
-On the first run, application inserts a new admin to the database.
+- **Autenticación**: `/api/auth`
+- **Usuarios**: `/api/users`
+- **Cursos**: `/api/courses`
+- **Contenido**: `/api/contents`
 
-- **username**: admin
-- **password**: admin123
+> **Nota**: Estos endpoints son solo ejemplos, consulta Swagger UI para una documentación completa.
 
-# How to setup
+## 🐳 Docker
 
-## **Deploy with Docker**
+Este proyecto está totalmente containerizado, lo que facilita su despliegue en cualquier entorno compatible con Docker. El archivo `docker-compose.yml` incluye los siguientes servicios:
 
-You can run the entire app using docker compose.
+- **database**: Contenedor de PostgreSQL que almacena los datos de la aplicación.
+- **backend**: Contenedor de la API desarrollada con NestJS.
+- **frontend**: Contenedor del cliente web en React.
 
-On root directory
+### Comandos Útiles de Docker
 
-```bash
-docker-compose up -d
-```
+- **Iniciar los contenedores**:
+  ```bash
+  docker-compose up
+  ```
 
-Application will be deployed on http://localhost:3000
+- **Detener los contenedores**:
+  ```bash
+  docker-compose down
+  ```
 
-Swagger Docs on http://localhost:3000/api/docs
+- **Reconstruir los contenedores**:
+  ```bash
+  docker-compose up --build
+  ```
 
-## **Running locally**
+## 📄 Consideraciones
 
-## Backend
+- **Persistencia de Datos**: La base de datos está configurada para utilizar un volumen llamado `db_data` que permite que los datos persistan incluso después de detener los contenedores.
+- **Renombrado de Ramas**: La rama principal del proyecto se cambió a `main` para reflejar la versión más reciente y estable del código.
 
-First you have to postgresql installed on your computer.
+## 💡 Funcionalidades Implementadas
 
-Edit the database properties on the backend/.env file.
+- **Despliegue de Backend y Frontend en Docker**
+- **Comunicación entre contenedores utilizando Docker Compose**
+- **Configuración de proxy en el frontend para redireccionamiento de API**
+- **Uso de Swagger UI para documentación de la API**
 
-On backend directory
+## 👏 Agradecimientos
 
-### Installing the dependencies
+Gracias por utilizar este proyecto. Si tienes sugerencias o encuentras algún problema, no dudes en abrir un **issue** o realizar un **pull request**.
 
-```bash
-yarn
-```
+---
 
-### Running the app
-
-```bash
-$ yarn start
-```
-
-Backend will be started on http://localhost:5000
-
-Swagger Docs on http://localhost:5000/api/docs
-
-## Frontend
-
-On frontend directory
-
-### Installing the dependencies
-
-```bash
-yarn
-```
-
-### Running the app
-
-```bash
-$ yarn start
-```
-
-Frontend will be started on http://localhost:3000
-
-# Testing
-
-**Unit testing**
-
-On backend directory
-
-```bash
-yarn test
-```
-
-**e2e api testing**
-
-First start the backend locally.
-
-On backend directory
-
-Install the dependencies
-
-```bash
-yarn
-```
-
-Start the backend locally.
-
-```bash
-yarn start
-```
-
-Start the test
-
-Test will login as **username:** admin, **password:** admin123 and create users with usernames test and test2. If you change username and password of admin or if you add users with username test and test2. Tests will fail.
-
-```bash
-yarn test:e2e
-```
-# Urbano-challenge
+¡Espero que disfrutes trabajando en este proyecto tanto como yo disfrute desarrollarlo! 🎉
