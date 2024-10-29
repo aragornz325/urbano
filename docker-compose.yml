@@ -12,18 +12,6 @@ services:
       - db_data:/var/lib/postgresql/data
       - ./backend/data/seed.sql:/docker-entrypoint-initdb.d/seed.sql
 
-  database_dev:
-    image: postgres:alpine
-    container_name: database_dev
-    environment:
-      POSTGRES_DB: challengedb
-      POSTGRES_USER: rodrigo
-      POSTGRES_PASSWORD: challengeps
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
   backend:
     container_name: backend
     build:

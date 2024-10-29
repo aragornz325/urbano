@@ -1,4 +1,5 @@
-FROM node:alpine as build
+# Etapa de construcción usando Node 18.19.1
+FROM node:18.19.1-alpine as build
 
 WORKDIR /app
 
@@ -11,9 +12,8 @@ COPY . .
 
 RUN yarn build
 
-#---
-
-FROM node:alpine
+# Etapa final usando la misma versión de Node 18.19.1
+FROM node:18.19.1-alpine
 
 WORKDIR /app
 
@@ -22,10 +22,9 @@ ENV NODE_ENV=production
 COPY package.json .
 COPY yarn.lock .
 COPY ormconfig.js .
+COPY --from=build /app/dist /app/dist
 
 RUN yarn install --production
-
-COPY --from=build /app/dist ./dist
 
 EXPOSE 5000
 

@@ -5,4 +5,5 @@ export default interface CreateUserRequest {
   password: string;
   role: string;
   email: string;
+  confirmPassword?: string;
 }
