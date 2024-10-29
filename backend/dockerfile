@@ -1,31 +1,49 @@
-# Etapa de construcción usando Node 18.19.1
-FROM node:18.19.1-alpine as build
+# Etapa de construcción usando Node 18 en Debian
+FROM node:18-bullseye as build
 
 WORKDIR /app
 
+# Instalar herramientas necesarias para compilar bcryptjs y otras dependencias
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar archivos de dependencias
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn
+# Instalar todas las dependencias de desarrollo
+RUN yarn install
 
+# Copiar el resto del código fuente
 COPY . .
 
-RUN yarn build
+# Realizar el build sin Nest CLI, usando `tsc` directamente
+RUN yarn tsc
 
-# Etapa final usando la misma versión de Node 18.19.1
-FROM node:18.19.1-alpine
+# Etapa final para producción
+FROM node:18-bullseye
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Instalar herramientas para producción
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar las dependencias de producción y el código compilado
 COPY package.json .
 COPY yarn.lock .
-COPY ormconfig.js .
+RUN yarn install --production --build-from-source
+
+# Copiar el directorio `dist` generado en la etapa de build
 COPY --from=build /app/dist /app/dist
+COPY ormconfig.js .
 
-RUN yarn install --production
-
+# Exponer el puerto y definir el comando de inicio
 EXPOSE 5000
-
-ENTRYPOINT [ "yarn", "start:prod" ]
+ENTRYPOINT ["yarn", "start:prod"]

@@ -15,5 +15,5 @@
 "types": ["node", "express"],
 "skipLibCheck": true,
   },
-  "exclude": ["dist", "node_modules", "e2e"]
+  "exclude": ["dist", "node_modules", "e2e", "**/*.spec.ts", "src/**/*.spec.ts"]
 }

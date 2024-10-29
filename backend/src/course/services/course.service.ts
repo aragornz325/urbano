@@ -95,7 +95,7 @@ export class CourseService {
     try {
       const course = await this.findById(id);
       course.imageUrl = null;
-      await course.save();
+      await this.courseRepository.save(course);
     } catch (error) {
       this.logger.error(error.message);
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
