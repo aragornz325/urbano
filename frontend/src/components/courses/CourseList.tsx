@@ -29,22 +29,28 @@ const CourseList: React.FC<CourseCardProps> = ({ name, description }) => {
   };
 
   return (
-    <section className="my-8">
-      <h2 className="mb-5 text-2xl font-semibold">Últimos Cursos</h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="mx-auto my-8 max-w-screen-xxl">
+      <h2 className="mb-5 text-2xl font-semibold text-center">
+        Últimos Cursos
+      </h2>
+      <div className="flex overflow-x-auto gap-4 justify-center px-4">
         {isLoading ? (
           <p className="text-center">Loading...</p>
-        ) : data.courses && data.courses.length > 0 ? (
+        ) : data?.courses && data.courses.length > 0 ? (
           data.courses.map((course) => (
-            <CourseItem
+            <div
               key={course.id}
-              refetch={handleRefetch}
-              course={{
-                ...course,
-                createdAt: course.createdAt,
-                imageUrl: course.imageUrl,
-              }}
-            />
+              className="flex-shrink-0 w-80 sm:w-1/2 lg:w-1/3"
+            >
+              <CourseItem
+                refetch={handleRefetch}
+                course={{
+                  ...course,
+                  createdAt: course.dateCreated,
+                  imageUrl: course.imageUrl,
+                }}
+              />
+            </div>
           ))
         ) : (
           <p className="text-center">No courses found.</p>

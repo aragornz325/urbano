@@ -6,7 +6,7 @@ import Contact from './pages/Contact';
 import Content from './pages/Contents';
 import ContentPage from './pages/Contents';
 import Courses from './pages/Courses';
-import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Users from './pages/Users';
@@ -39,7 +39,7 @@ export default function App() {
   return isLoaded ? (
     <Router>
       <Switch>
-        <PrivateRoute exact path="/" component={Dashboard} />
+        <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/users" component={Users} roles={['admin']} />
         <PrivateRoute exact path="/courses" component={Courses} />
         <PrivateRoute exact path="/courses/:id" component={Content} />

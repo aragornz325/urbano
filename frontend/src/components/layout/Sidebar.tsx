@@ -48,7 +48,7 @@ export default function Sidebar({ className = '' }: SidebarProps) {
       </Link>
       <nav className="flex flex-col flex-grow gap-5 mt-20">
         <SidebarItem to="/" active={location.pathname === '/'}>
-          <Home /> Dashboard
+          <Home /> Home
         </SidebarItem>
         <SidebarItem to="/courses" active={location.pathname === '/courses'}>
           <BookOpen /> Courses
