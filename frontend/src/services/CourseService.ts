@@ -24,6 +24,7 @@ class CourseService {
   async findAll(
     data: CourseQuery,
   ): Promise<{ courses: Course[]; totalItems: number }> {
+    console.log(data);
     return (
       await apiService.get<{ courses: Course[]; totalItems: number }>(
         '/api/courses',

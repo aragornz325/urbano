@@ -94,12 +94,14 @@ const Users: React.FC = () => {
       />
 
       {data && (
-        <UsersTable
-          totalItems={totalItems}
-          perPage={perPage}
-          data={data.users}
-          isLoading={isLoading}
-        />
+        <div className="w-full">
+          <UsersTable
+            totalItems={totalItems}
+            perPage={perPage}
+            data={data.users}
+            isLoading={isLoading}
+          />
+        </div>
       )}
 
       <AddUserModal

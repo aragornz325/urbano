@@ -6,6 +6,7 @@ import { PaginationControls, UpdateUserModal, UserRow } from '../../components';
 import UpdateUserRequest from '../../models/user/UpdateUserRequest';
 import User from '../../models/user/User';
 import userService from '../../services/UserService';
+import { CustomsTh } from './CustomsTh';
 import DeleteUserModal from './DeleteUserModal';
 
 interface UsersTableProps {
@@ -52,24 +53,40 @@ export default function UsersTable({
   );
 
   return (
-    <>
+    <div className="flex flex-col gap-4 w-full">
       {isLoading ? (
         <Loader className="mx-auto animate-spin" />
       ) : (
-        paginatedData.map((user) => (
-          <UserRow
-            key={user.id}
-            user={user}
-            onEdit={() => {
-              setSelectedUser(user);
-              setUpdateShow(true);
-            }}
-            onDelete={() => {
-              setSelectedUser(user);
-              setDeleteShow(true);
-            }}
-          />
-        ))
+        <div className="overflow-x-auto w-full rounded-lg shadow">
+          <table className="mt-3 w-full bg-white divide-y divide-gray-200 dark:bg-dark-background">
+            <thead className="bg-gray-100 dark:bg-gray-800">
+              <tr>
+                <CustomsTh label="First Name" />
+                <CustomsTh label="Last Name" />
+                <CustomsTh label="Email" />
+                <CustomsTh label="Status" />
+                <CustomsTh label="Role" />
+                <CustomsTh label="Actions" className=" text-center w-[120px]" />
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              {paginatedData.map((user) => (
+                <UserRow
+                  key={user.id}
+                  user={user}
+                  onEdit={() => {
+                    setSelectedUser(user);
+                    setUpdateShow(true);
+                  }}
+                  onDelete={() => {
+                    setSelectedUser(user);
+                    setDeleteShow(true);
+                  }}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <DeleteUserModal
@@ -111,6 +128,6 @@ export default function UsersTable({
         hasNextPage={false}
         totalItems={totalItems}
       />
-    </>
+    </div>
   );
 }

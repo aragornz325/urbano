@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
 
+import { CustomsTh } from '../users/CustomsTh';
 import DropdownSort from './DropDownSort';
 
 interface TableProps {
@@ -9,6 +10,7 @@ interface TableProps {
   orderBy: string;
   order: 'asc' | 'desc';
   onSort: (field: string, order: 'asc' | 'desc') => void;
+  props?: React.ComponentProps<'table'>;
 }
 
 export default function Table({
@@ -17,6 +19,7 @@ export default function Table({
   orderBy,
   order,
   onSort,
+  props,
 }: TableProps) {
   const sortOptions = columns
     .filter((column) => ['Name', 'Description', 'Created'].includes(column))
@@ -32,50 +35,38 @@ export default function Table({
   };
 
   return (
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="dark:text-white">
-        <tr>
-          <th
-            scope="col"
-            colSpan={columns.length}
-            className="px-3 py-5 text-left"
-          >
-            <div className="flex gap-2 justify-end items-center">
-              <button
-                onClick={() => handleSortChange(orderBy)}
-                className="focus:outline-none"
-              >
-                {order === 'asc' ? (
-                  <ChevronUp size={16} />
+    <div className="w-full">
+      <table className="w-full" {...props}>
+        <thead className="bg-gray-100 dark:bg-gray-800">
+          <tr>
+            {columns.map((column, index) => (
+              <CustomsTh key={index} label={column}>
+                {column === orderBy ? (
+                  <div className="flex gap-1 items-center">
+                    <span>{column}</span>
+                    <button
+                      onClick={() => handleSortChange(column.toLowerCase())}
+                      className="focus:outline-none"
+                    >
+                      {order === 'asc' ? (
+                        <ChevronUp size={16} />
+                      ) : (
+                        <ChevronDown size={16} />
+                      )}
+                    </button>
+                  </div>
                 ) : (
-                  <ChevronDown size={16} />
+                  column
                 )}
-              </button>
-              <div style={{ marginRight: '-20px' }}>
-                <DropdownSort
-                  options={sortOptions}
-                  selected={orderBy}
-                  onSelect={handleSortChange}
-                />
-              </div>
-            </div>
-          </th>
-          <th scope="col" className="relative px-6 py-3">
-            <span className="sr-only">Edit</span>
-          </th>
-        </tr>
-        <tr>
-          {columns.map((column, index) => (
-            <th
-              key={index}
-              className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-            >
-              {column}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className="divide-gray-200">{children}</tbody>
-    </table>
+              </CustomsTh>
+            ))}
+            <CustomsTh label="Actions" className="text-center w-[120px]" />
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          {children}
+        </tbody>
+      </table>
+    </div>
   );
 }

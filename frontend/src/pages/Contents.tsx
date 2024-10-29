@@ -52,7 +52,7 @@ export default function Content() {
       subtitle={'Contents and Resources for Selected Course'}
       icon={<BookOpen />}
     >
-      <div className="flex justify-between items-center mb-5">
+      <div className="flex justify-between items-center mb-5 w-full">
         <h1 className="text-3xl font-semibold">
           {!userQuery.isLoading ? `${userQuery.data.name} Contents` : ''}
         </h1>
@@ -71,7 +71,9 @@ export default function Content() {
         onDescriptionChange={setDescription}
       />
       {!isLoading ? (
-        <ContentsTable isLoading={isLoading} data={data} courseId={id} />
+        <div className="w-full">
+          <ContentsTable isLoading={isLoading} data={data} courseId={id} />
+        </div>
       ) : (
         <div className="flex justify-center items-center h-full">
           <Loader size={30} className="animate-spin" />

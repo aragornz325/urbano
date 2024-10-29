@@ -7,9 +7,10 @@ import { FavoriteService } from './favorites/favorites.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Favorite } from './favorites/favorites.entity';
 import { UserModule } from 'src/user/user.module';
+import { Course } from './entity/course.entity';
 
 @Module({
-  imports: [forwardRef(() => ContentModule), TypeOrmModule.forFeature([Favorite]), UserModule],
+  imports: [forwardRef(() => ContentModule), TypeOrmModule.forFeature([Favorite, Course]), UserModule],
   controllers: [CourseController],
   providers: [CourseService, FavoriteService],
   exports: [CourseService],

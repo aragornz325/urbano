@@ -85,9 +85,9 @@ export default function Courses() {
 
     try {
       await courseService.save({ ...createCourseRequest, imageUrl });
-      setAddCourseShow(false);
       resetFields();
       refetch();
+      setAddCourseShow(false);
     } catch (error) {
       setError(error.response?.data?.message || 'An error occurred');
     }
@@ -102,6 +102,11 @@ export default function Courses() {
   }, []);
 
   const resetFields = () => {
+    setName('');
+    setDescription('');
+    setSelectedImage(null);
+    setPreviewUrl(null);
+    setError(null);
     setSelectedImage(null);
     setPreviewUrl(null);
     setError(null);

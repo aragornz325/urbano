@@ -1,9 +1,9 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import { Loader, Trash2, X } from 'react-feather';
-import { useQuery } from 'react-query';
 
 import { Modal } from '../../components';
-import apiService from '../../services/ApiService'; // Asegúrate de que la ruta sea correcta
+import { useTheme } from '../../context/ThemeContext';
+import apiService from '../../services/ApiService';
 import courseService from '../../services/CourseService';
 
 interface UpdateCourseModalProps {
@@ -18,7 +18,6 @@ interface UpdateCourseModalProps {
   onImageDelete: () => void;
   refresh: () => void;
 }
-
 const UpdateCourseModal: React.FC<UpdateCourseModalProps> = ({
   courseId,
   show,
@@ -31,6 +30,7 @@ const UpdateCourseModal: React.FC<UpdateCourseModalProps> = ({
   onImageDelete,
   refresh,
 }) => {
+  const { darkMode } = useTheme();
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(initialImageUrl);
   const [deleting, setDeleting] = useState<boolean>(false);
@@ -45,7 +45,7 @@ const UpdateCourseModal: React.FC<UpdateCourseModalProps> = ({
         await courseService.deleteImage({ url: initialImageUrl, id: courseId });
         setSelectedImageFile(null);
         setPreviewUrl(null);
-        onImageDelete(); // Notifica al componente padre para actualizar
+        onImageDelete();
       }
     } catch (error) {
       console.error('Error deleting image:', error);
@@ -62,14 +62,6 @@ const UpdateCourseModal: React.FC<UpdateCourseModalProps> = ({
     }
   };
 
-  /**
-   * Image upload function
-   *
-   * @param {File} file - The image file to be uploaded
-   * @returns {Promise<string | null>} The URL of the uploaded image or null if it fails
-   * @throws {Error} If an error occurs during the upload
-   * @async
-   */
   const uploadImage = async (file: File): Promise<string | null> => {
     const formData = new FormData();
     formData.append('file', file);
@@ -114,7 +106,6 @@ const UpdateCourseModal: React.FC<UpdateCourseModalProps> = ({
 
       await courseService.update(courseId, newCourse);
       refresh();
-
       onClose();
     } catch (error) {
       console.error('Error updating course:', error);
@@ -123,79 +114,100 @@ const UpdateCourseModal: React.FC<UpdateCourseModalProps> = ({
     }
   };
 
+  const containerClass = darkMode
+    ? 'bg-gray-800 text-white shadow-xl'
+    : 'bg-white text-gray-900 shadow-lg';
+  const inputClass = darkMode
+    ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400 focus:border-blue-500'
+    : 'bg-gray-100 text-gray-900 border-gray-300 placeholder-gray-500 focus:border-blue-600';
+  const buttonClass = darkMode
+    ? 'bg-blue-500 hover:bg-blue-400 text-white'
+    : 'bg-blue-600 hover:bg-blue-500 text-white';
+  const errorClass = 'text-red-500';
+
   return (
     <Modal show={show}>
-      <div className="flex">
-        <h1 className="mb-3 font-semibold">Update Course</h1>
-        <button className="ml-auto focus:outline-none" onClick={onClose}>
-          <X size={30} />
-        </button>
-      </div>
-      <hr />
+      <div className={`p-5 rounded-lg ${containerClass}`}>
+        <div className="flex justify-between items-center mb-5">
+          <h1 className="text-xl font-semibold">Update Course</h1>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600"
+          >
+            <X size={24} />
+          </button>
+        </div>
 
-      <form className="flex flex-col gap-5 mt-5" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          className="input"
-          placeholder={initialName}
-          value={name || initialName}
-          onChange={(e) => setName(e.target.value)}
-          required
-          disabled={isSubmitting || uploading}
-        />
-        <input
-          type="text"
-          className="input"
-          placeholder={initialDescription}
-          value={description || initialDescription}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-          disabled={isSubmitting || uploading}
-        />
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className={`p-2 rounded-md border ${inputClass}`}
+            placeholder="Course Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            disabled={isSubmitting || uploading}
+          />
+          <textarea
+            className={`p-2 rounded-md border resize-none ${inputClass}`}
+            placeholder="Course Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={3}
+            required
+            disabled={isSubmitting || uploading}
+          ></textarea>
 
-        {previewUrl || initialImageUrl ? (
-          <div className="overflow-hidden relative mb-4 w-full h-48 rounded-md border">
-            <img
-              src={previewUrl || initialImageUrl}
-              alt="Preview"
-              className="object-cover w-full h-full"
-            />
-            <button
-              type="button"
-              className="absolute top-2 right-2 p-1 bg-white rounded-full shadow"
-              onClick={handleDeleteImage}
-            >
-              {deleting ? (
-                <Loader size={20} className="text-red-500 animate-spin" />
-              ) : (
-                <Trash2 size={20} className="text-red-500" />
-              )}
-            </button>
-          </div>
-        ) : (
-          <div className="p-4 rounded-md border-2 border-dashed cursor-pointer focus:outline-none">
-            <input
-              type="file"
-              onChange={handleImageUpload}
-              className="w-full h-full"
-            />
-            <p>Drag and drop an image here, or click to select</p>
-          </div>
-        )}
-
-        <button className="btn" disabled={isSubmitting || uploading}>
-          {uploading || isSubmitting ? (
-            <Loader className="mx-auto animate-spin" />
+          {previewUrl ? (
+            <div className="overflow-hidden relative mb-4 w-full h-48 rounded-md border">
+              <img
+                src={previewUrl}
+                alt="Preview"
+                className="object-cover w-full h-full"
+              />
+              <button
+                type="button"
+                className="absolute top-2 right-2 p-1 bg-white rounded-full shadow dark:bg-gray-700"
+                onClick={handleDeleteImage}
+              >
+                {deleting ? (
+                  <Loader size={20} className="text-red-500 animate-spin" />
+                ) : (
+                  <Trash2 size={20} className="text-red-500" />
+                )}
+              </button>
+            </div>
           ) : (
-            'Save'
+            <div className="p-4 rounded-md border-2 border-dashed cursor-pointer focus:outline-none hover:border-blue-400">
+              <input
+                type="file"
+                onChange={handleImageUpload}
+                className="w-full h-full cursor-pointer"
+              />
+              <p className="text-center">
+                Drag and drop an image here, or click to select
+              </p>
+            </div>
           )}
-        </button>
-        {error && (
-          <div className="p-3 font-semibold text-red-500 bg-red-50 rounded-md border">
-            {error}
-          </div>
-        )}
-      </form>
+
+          <button
+            className={`p-2 rounded-md ${buttonClass}`}
+            disabled={isSubmitting || uploading}
+          >
+            {uploading || isSubmitting ? (
+              <Loader className="mx-auto animate-spin" />
+            ) : (
+              'Save'
+            )}
+          </button>
+
+          {error && (
+            <div className={`p-3 bg-red-100 rounded-md ${errorClass}`}>
+              {error}
+            </div>
+          )}
+        </form>
+      </div>
     </Modal>
   );
 };

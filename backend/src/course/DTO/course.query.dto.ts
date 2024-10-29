@@ -36,6 +36,11 @@ export class CourseQueryDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
+  @IsString()
+  dateCreated?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
   @Type(() => Number)
   @IsNumber()
   page?: number;

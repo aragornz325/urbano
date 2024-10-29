@@ -67,9 +67,10 @@ export class CourseController {
    * @returns {Promise<Course[]>}
    */
   @Get()
-  async findAll(@Query() courseQuery: CourseQueryDto):  Promise<{ courses: Course[], totalItems: number }> {
+  async findAll(@Query() data: CourseQueryDto):  Promise<{ courses: Course[], totalItems: number }> {
     try {
-      return await this.courseService.findAll(courseQuery);
+      this.logger.debug(data);
+      return await this.courseService.findAll(data);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -5,10 +5,15 @@ import { CreateCourseDto, UpdateCourseDto } from '../DTO/course.dto';
 import { Course } from '../entity/course.entity';
 import { CourseQueryDto } from '../DTO/course.query.dto';
 import { UserService } from 'src/user/services/user.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CourseService {
-  constructor(private readonly userService: UserService) {}
+    constructor(private readonly userService: UserService,
+    @InjectRepository(Course)
+    private courseRepository: Repository<Course>,
+  ) {}
  private readonly logger = new Logger(CourseService.name);
 
   async save(createCourseDto: CreateCourseDto, userId: string): Promise<Course> {
@@ -17,7 +22,7 @@ export class CourseService {
     this.logger.log('check user id', userId);
     const user = await this.userService.findById(userId);
     this.logger.log('user found, create course');
-    return await Course.create({
+    return await this.courseRepository.create({
       ...createCourseDto,
       createdBy: user,
       dateCreated:now,
@@ -46,44 +51,25 @@ export class CourseService {
    * 
    * @throws HttpException - If an error occurs during the retrieval process.
    */
-  async findAll(courseQuery: CourseQueryDto): Promise<{ courses: Course[], totalItems: number }> {
-    try {
-      this.logger.log(`retrieving courses with query: ${JSON.stringify(courseQuery)}`);
-      const { name, description, sortBy, sortOrder, page, perPage } = courseQuery;
-  
-      const whereClause: any = {};
-      if (name) whereClause.name = name;
-      if (description) whereClause.description = description;
-      const totalItems = await Course.count({ where: whereClause });
-      
-      this.logger.log(`creating query for courses`);
-      const courses = await Course.createQueryBuilder('course')
-        .leftJoinAndSelect('course.createdBy', 'createdBy')
-        .select([
-          'course.id',
-          'course.name',
-          'course.description',
-          'course.imageUrl',
-          'createdBy.id',
-        ])
-        .where(whereClause)
-        .orderBy(sortBy || 'course.name', sortOrder || 'ASC')
-        .take(perPage || 10)
-        .skip(page ? (page - 1) * (perPage || 10) : 0)
-        .getMany();
-  
-      this.logger.log(`courses found: ${courses.length}`);
-      return { courses, totalItems };
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  async findAll(data: CourseQueryDto): Promise<{ courses: Course[], totalItems: number }> {
+    const { name, description, sortBy, sortOrder, page, perPage } = data;
+    const queryBuilder = this.courseRepository.createQueryBuilder('course');
+    if (name) {
+      queryBuilder.andWhere('course.name LIKE :name', { name: `%${name}%` });
     }
+    if (description) {
+      queryBuilder.andWhere('course.description LIKE :description', { description: `%${description}%` });
+    }
+    const [courses, totalItems] = await queryBuilder.getManyAndCount();
+    return { courses, totalItems };
+    
   }
   
   
 
 
   async findById(id: string): Promise<Course> {
-    const course = await Course.findOne(id);
+    const course = await this.courseRepository.findOne(id);
     if (!course) {
       throw new HttpException(
         `Could not find course with matching id ${id}`,
@@ -95,7 +81,7 @@ export class CourseService {
 
   async update(id: string, updateCourseDto: UpdateCourseDto): Promise<Course> {
     const course = await this.findById(id);
-    return await Course.create({ id: course.id, ...updateCourseDto }).save();
+    return await this.courseRepository.create({ id: course.id, ...updateCourseDto }).save();
   }
 
   /**
@@ -122,7 +108,7 @@ export class CourseService {
        this.logger.error(`Could not find course with matching id ${id}`);
        return
       }
-      await Course.delete(id);
+      await this.courseRepository.delete(id);
       return id;
     } catch (error) {
       this.logger.error(error.message);
@@ -132,7 +118,7 @@ export class CourseService {
 
   async count(): Promise<number> {
     try { 
-      return await Course.count();
+      return await this.courseRepository.count();
     } catch (error) {
       this.logger.error(error.message);
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);

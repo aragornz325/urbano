@@ -1,4 +1,5 @@
 import React from 'react';
+import { Edit, Trash2 } from 'react-feather';
 
 import { TableItem } from '../../components';
 
@@ -33,18 +34,18 @@ const UserRow: React.FC<UserRowProps> = ({ user, onEdit, onDelete }) => (
       )}
     </TableItem>
     <TableItem>{user.role}</TableItem>
-    <TableItem className="text-right">
+    <TableItem className="flex justify-center">
       <button
         className="text-indigo-600 hover:text-indigo-900"
         onClick={onEdit}
       >
-        Edit
+        <Edit />
       </button>
       <button
         className="ml-3 text-red-600 hover:text-red-900"
         onClick={onDelete}
       >
-        Delete
+        <Trash2 />
       </button>
     </TableItem>
   </tr>

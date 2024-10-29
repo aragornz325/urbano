@@ -1,4 +1,5 @@
 import React from 'react';
+import { Edit, Trash } from 'react-feather'; // Importamos los iconos
 import { Link } from 'react-router-dom';
 
 import useAuth from '../../hooks/useAuth';
@@ -25,20 +26,24 @@ const CourseRow: React.FC<CourseRowProps> = ({
       authenticatedUser.id === course.createdBy.id);
 
   return (
-    <tr>
-      <TableItem>
-        <Link to={`/courses/${course.id}`}>{course.name}</Link>
+    <tr className="dark:bg-gray-800">
+      <TableItem className="px-6 py-4">
+        <Link to={`/courses/${course.id}`} className="hover:underline">
+          {course.name}
+        </Link>
       </TableItem>
-      <TableItem>{course.description}</TableItem>
-      <TableItem className="text-center">
+      <TableItem className="px-6 py-4">{course.description}</TableItem>
+      <TableItem className="px-6 py-4 text-center">
         <img
           src={course.imageUrl || '/favicon.png'}
           alt={course.name}
           className="object-cover w-16 h-16 rounded-full"
         />
       </TableItem>
-      <TableItem>{new Date(course.dateCreated).toLocaleDateString()}</TableItem>
-      <TableItem className="text-right">
+      <TableItem className="px-6 py-4">
+        {new Date(course.dateCreated).toLocaleDateString()}
+      </TableItem>
+      <TableItem className="flex gap-4 justify-end items-center px-6 py-4 text-right">
         {['admin', 'editor'].includes(authenticatedUser.role) && (
           <button
             onClick={() => {
@@ -46,10 +51,14 @@ const CourseRow: React.FC<CourseRowProps> = ({
               setUpdateShow(true);
             }}
             disabled={!canEdit}
-            title={!canEdit ? 'No tienes permisos para editar' : ''}
-            className={!canEdit ? 'text-gray-400 cursor-not-allowed' : ''}
+            title={!canEdit ? 'No tienes permisos para editar' : 'Editar curso'}
+            className={
+              !canEdit
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'hover:text-blue-500'
+            }
           >
-            Edit
+            <Edit size={18} />
           </button>
         )}
         {authenticatedUser.role === 'admin' && (
@@ -58,8 +67,10 @@ const CourseRow: React.FC<CourseRowProps> = ({
               setSelectedCourse(course);
               setDeleteShow(true);
             }}
+            title="Eliminar curso"
+            className="hover:text-red-500"
           >
-            Delete
+            <Trash size={18} />
           </button>
         )}
       </TableItem>

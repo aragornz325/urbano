@@ -38,7 +38,7 @@ export default function ContentsTable({
       await contentService.delete(courseId, selectedContentId);
       setDeleteShow(false);
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || 'Error deleting content');
     } finally {
       setIsDeleting(false);
     }
@@ -50,7 +50,7 @@ export default function ContentsTable({
       await contentService.update(courseId, selectedContentId, data);
       setUpdateShow(false);
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || 'Error updating content');
     } finally {
       setIsSubmitting(false);
     }
@@ -82,40 +82,35 @@ export default function ContentsTable({
     }
   };
 
-  const sortedData = sortData(data, orderBy, order);
+  const sortedData = useMemo(
+    () => sortData(data, orderBy, order),
+    [data, orderBy, order],
+  );
 
   return (
     <>
-      <div className="table-container dark:bg-gray-800">
+      <div className="w-full dark:bg-gray-800">
         <Table
           columns={['Name', 'Description', 'Created']}
           orderBy={orderBy}
           order={order}
           onSort={handleSort}
         >
-          <thead>
+          {isLoading ? (
             <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Created</th>
-              <th>Actions</th>
+              <td colSpan={4} className="py-4 text-center">
+                Loading...
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <tr>
-                <td colSpan={4}>Loading...</td>
-              </tr>
-            ) : (
-              <ContentTableRows
-                data={sortedData}
-                setSelectedContentId={setSelectedContentId}
-                setUpdateShow={setUpdateShow}
-                setDeleteShow={setDeleteShow}
-                setValue={(field, value) => {}}
-              />
-            )}
-          </tbody>
+          ) : (
+            <ContentTableRows
+              data={sortedData}
+              setSelectedContentId={setSelectedContentId}
+              setUpdateShow={setUpdateShow}
+              setDeleteShow={setDeleteShow}
+              setValue={(field, value) => {}}
+            />
+          )}
         </Table>
       </div>
 
