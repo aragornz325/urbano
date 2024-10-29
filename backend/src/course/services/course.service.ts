@@ -52,6 +52,7 @@ export class CourseService {
   async findAll(data: CourseQueryDto): Promise<{ courses: Course[], totalItems: number }> {
     const { name, description, sortBy, sortOrder, page, perPage } = data;
     const queryBuilder = this.courseRepository.createQueryBuilder('course');
+    queryBuilder.leftJoinAndSelect('course.createdBy', 'createdBy');
     if (name) {
       queryBuilder.andWhere('course.name LIKE :name', { name: `%${name}%` });
     }
