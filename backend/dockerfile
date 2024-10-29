@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y \
     python3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar archivos de dependencias
+# Instalar @nestjs/cli y TypeScript globalmente
+RUN npm install -g @nestjs/cli typescript
+
+# Copiar archivo de entorno y archivos de dependencias
+COPY .env /app/.env
 COPY package.json .
 COPY yarn.lock .
 
@@ -29,16 +33,19 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Instalar herramientas para producción
+# Instalar herramientas para producción, @nestjs/cli y TypeScript globalmente
 RUN apt-get update && apt-get install -y \
     build-essential \
     python3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar las dependencias de producción y el código compilado
+RUN npm install -g @nestjs/cli typescript
+
+# Copiar archivo de entorno y dependencias de producción
+COPY .env /app/.env
 COPY package.json .
 COPY yarn.lock .
-RUN yarn install --production --build-from-source
+RUN yarn install --build-from-source
 
 # Copiar el directorio `dist` generado en la etapa de build
 COPY --from=build /app/dist /app/dist
@@ -46,4 +53,4 @@ COPY ormconfig.js .
 
 # Exponer el puerto y definir el comando de inicio
 EXPOSE 5000
-ENTRYPOINT ["yarn", "start:prod"]
+ENTRYPOINT ["node", "dist/main"]

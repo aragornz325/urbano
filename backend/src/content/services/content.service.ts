@@ -5,7 +5,7 @@ import { CourseService } from '../../course/services/course.service';
 import { CreateContentDto, UpdateContentDto } from '../DTO/content.dto';
 import { Content } from '../entity/content.entity';
 import { ContentQuery } from '../content.query';
-import { UserService } from 'src/user/services/user.service';
+import { UserService } from '../../user/services/user.service';
 
 @Injectable()
 export class ContentService {

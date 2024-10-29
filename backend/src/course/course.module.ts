@@ -6,7 +6,7 @@ import { CourseService } from './services/course.service';
 import { FavoriteService } from './favorites/favorites.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Favorite } from './favorites/favorites.entity';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '../user/user.module';
 import { Course } from './entity/course.entity';
 
 @Module({

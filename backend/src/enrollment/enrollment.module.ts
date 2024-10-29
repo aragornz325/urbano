@@ -3,8 +3,8 @@ import { EnrollmentService } from './services/enrollment.service';
 import { EnrollmentController } from './controller/enrollment.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Enrollment } from './entities/enrollment.entity';
-import { UserModule } from 'src/user/user.module';
-import { CourseModule } from 'src/course/course.module';
+import { UserModule } from '../user/user.module';
+import { CourseModule } from '../course/course.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 
 

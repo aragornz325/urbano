@@ -4,7 +4,7 @@ import { ILike, FindManyOptions } from 'typeorm';
 import { CreateCourseDto, UpdateCourseDto } from '../DTO/course.dto';
 import { Course } from '../entity/course.entity';
 import { CourseQueryDto } from '../DTO/course.query.dto';
-import { UserService } from 'src/user/services/user.service';
+import { UserService } from '../../user/services/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 

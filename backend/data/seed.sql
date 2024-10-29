@@ -1,3 +1,12 @@
+DO
+$$
+BEGIN
+   IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'rodrigo') THEN
+      CREATE ROLE rodrigo WITH LOGIN PASSWORD 'admin123';
+   END IF;
+END
+$$;
+
 --
 -- PostgreSQL database dump
 --
@@ -43,6 +52,7 @@ CREATE TYPE public.user_role_enum AS ENUM (
 
 
 ALTER TYPE public.user_role_enum OWNER TO rodrigo;
+
 
 SET default_tablespace = '';
 

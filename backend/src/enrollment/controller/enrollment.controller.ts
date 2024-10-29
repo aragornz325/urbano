@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpStatu
 import { EnrollmentService } from '../services/enrollment.service';
 import { CreateEnrollmentDto } from '../dto/create-enrollment.dto';
 import { UpdateEnrollmentDto } from '../dto/update-enrollment.dto';
-import { Roles } from 'src/decorators/roles.decorator';
-import { Role } from 'src/enums/role.enum';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { Roles } from '../../decorators/roles.decorator';
+import { Role } from '../../enums/role.enum';
+import { JwtGuard } from '../../auth/guards/jwt.guard';
 import { Request } from 'express';
 
 @Controller('enrollment')
