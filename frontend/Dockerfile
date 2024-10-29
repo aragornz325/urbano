@@ -1,12 +1,10 @@
-FROM node:18.19.1-alpine as build
+# Usar Node 16 para evitar problemas de compatibilidad
+FROM node:18-alpine as build
 
 WORKDIR /app
 
 # Copiar archivos al contenedor
 COPY . .
-
-# Establecer la opción de compatibilidad de OpenSSL
-ENV NODE_OPTIONS=--openssl-legacy-provider
 
 # Instalar dependencias y construir la aplicación
 RUN yarn install
