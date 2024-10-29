@@ -1,4 +1,4 @@
-import Course from '../course/Course';
+import { Course } from '../course/Course';
 import User from '../user/User';
 
 export interface IFavorite {
