@@ -1,3 +1,11 @@
+# Changelog: 29/10
+
+## Si la rama principal no funciona, usar la rama "front"
+
+Se realizaron cambios en la rama `main` que podrían afectar el comportamiento de la aplicación. En caso de encontrar problemas, prueba usar la rama `front` como alternativa.
+
+***
+
 # Proyecto de Backend y Frontend con Docker
 
 Este proyecto es una aplicación de backend y frontend desarrollada en Node.js, PostgreSQL y React, todo desplegado en contenedores Docker. Aquí encontrarás toda la información necesaria para instalar, configurar y ejecutar el proyecto de manera eficiente.
