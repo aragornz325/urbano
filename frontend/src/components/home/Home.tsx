@@ -53,7 +53,7 @@ const WelcomeSection: React.FC = () => (
 
       <WelcomeCard
         title="Configuración"
-        imageUrl="https://res.cloudinary.com/do5hovkvl/image/upload/v1730175300/courses/panel/3b865064-cdd5-4dcc-a6de-6ba3d1f63001.png"
+        imageUrl="https://res.cloudinary.com/do5hovkvl/image/upload/v1730179556/courses/panel/eab63454-ac41-484a-a9ff-604a9a948ad5.png"
         description="Ajusta tu perfil y preferencias"
         bgColor="bg-indigo-100"
       />
