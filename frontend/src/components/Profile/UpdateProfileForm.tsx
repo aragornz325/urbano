@@ -64,7 +64,10 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
         {...register('password')}
       />
     </div>
-    <button className="w-full btn" disabled={isSubmitting}>
+    <button
+      className="w-full text-white transition-colors duration-200 bg-brand-primary hover:bg-brand-secondary"
+      disabled={isSubmitting}
+    >
       {isSubmitting ? <Loader className="mx-auto animate-spin" /> : 'Update'}
     </button>
   </form>

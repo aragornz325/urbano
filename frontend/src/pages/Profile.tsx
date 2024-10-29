@@ -44,6 +44,7 @@ export default function UpdateProfile() {
   const password = watch('password'); // Aquí estamos usando watch para observar el campo de password
 
   const handleAvatarClick = () => {
+    alert('This function is on its way.');
     console.log('Change avatar clicked');
   };
 
@@ -140,7 +141,7 @@ export default function UpdateProfile() {
               )}
             </div>
             <button
-              className="px-4 py-2 mt-3 w-full font-semibold text-white bg-blue-600 rounded-md transition-all duration-200 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+              className="px-4 py-2 mt-3 w-full font-semibold text-white rounded-md transition-all duration-200 bg-brand-primary hover:bg-brand-secondary"
               disabled={isSubmitting}
             >
               {isSubmitting ? (

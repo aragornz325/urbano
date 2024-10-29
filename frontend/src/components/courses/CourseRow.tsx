@@ -21,9 +21,7 @@ const CourseRow: React.FC<CourseRowProps> = ({
 }) => {
   const { authenticatedUser } = useAuth();
   const canEdit =
-    authenticatedUser.role === 'admin' ||
-    (authenticatedUser.role === 'editor' &&
-      authenticatedUser.id === course.createdBy.id);
+    authenticatedUser.role === 'admin' || authenticatedUser.role === 'editor';
 
   return (
     <tr className="dark:bg-gray-800">
