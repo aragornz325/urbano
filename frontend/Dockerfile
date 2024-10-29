@@ -6,7 +6,7 @@ WORKDIR /app
 # Copiar archivos al contenedor
 COPY . .
 
-# Instalar dependencias y construir la aplicación
+
 RUN yarn install
 RUN yarn build
 
