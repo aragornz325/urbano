@@ -1,20 +1,20 @@
-# Usar Node 16 para evitar problemas de compatibilidad
-FROM node:18-alpine as build
+# Usar Node 18-alpine para el entorno de desarrollo
+FROM node:18-alpine
 
 WORKDIR /app
 
-# Copiar archivos al contenedor
+# Copiar archivos de dependencias
+COPY package.json ./
+COPY yarn.lock ./
+
+# Instalar todas las dependencias
+RUN yarn install
+
+# Copiar el resto del código fuente
 COPY . .
 
+# Exponer el puerto en el que React sirve la aplicación en modo de desarrollo
+EXPOSE 3000
 
-RUN yarn install
-RUN yarn build
-
-#---
-FROM nginx:alpine
-
-# Copiar la build al directorio de nginx
-COPY --from=build /app/build/ /var/www
-COPY nginx.conf /etc/nginx/nginx.conf
-
-EXPOSE 80
+# Ejecutar la aplicación en modo de desarrollo
+CMD ["yarn", "start"]
