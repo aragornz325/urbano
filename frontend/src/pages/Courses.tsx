@@ -43,6 +43,7 @@ export default function Courses() {
 
   const fetchCourses = useCallback(
     (page: number, perPage: number) => {
+      console.log(page, perPage);
       setCurrentPage(page);
       setPerPage(perPage);
     },

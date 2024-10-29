@@ -37,19 +37,17 @@ export class CourseService {
   /**
    * Retrieves a list of courses based on the provided query parameters.
    * 
-   * @param courseQuery - An object containing query parameters for filtering and sorting courses.
-   *   - name: Optional. Filters courses by name.
-   *   - description: Optional. Filters courses by description.
-   *   - sortBy: Optional. Specifies the field to sort by. Defaults to 'name'.
-   *   - sortOrder: Optional. Specifies the order of sorting ('ASC' or 'DESC'). Defaults to 'ASC'.
-   *   - page: Optional. Specifies the page number for pagination.
-   *   - perPage: Optional. Specifies the number of items per page for pagination. Defaults to 10.
+   * @param data - An object containing query parameters for filtering and pagination:
+   *   - name: Optional. A string to filter courses by name using a LIKE query.
+   *   - description: Optional. A string to filter courses by description using a LIKE query.
+   *   - sortBy: Optional. A string indicating the field to sort the results by.
+   *   - sortOrder: Optional. A string indicating the order of sorting (e.g., 'ASC' or 'DESC').
+   *   - page: Optional. A number indicating the page of results to retrieve.
+   *   - perPage: Optional. A number indicating the number of results per page.
    * 
    * @returns A promise that resolves to an object containing:
-   *   - courses: An array of Course objects that match the query.
-   *   - totalItems: The total number of courses that match the query.
-   * 
-   * @throws HttpException - If an error occurs during the retrieval process.
+   *   - courses: An array of Course objects that match the query parameters.
+   *   - totalItems: The total number of courses that match the query parameters.
    */
   async findAll(data: CourseQueryDto): Promise<{ courses: Course[], totalItems: number }> {
     const { name, description, sortBy, sortOrder, page, perPage } = data;
@@ -60,13 +58,15 @@ export class CourseService {
     if (description) {
       queryBuilder.andWhere('course.description LIKE :description', { description: `%${description}%` });
     }
+    if (page) {
+      queryBuilder.skip((page - 1) * perPage);
+    }
+    if (perPage) {
+      queryBuilder.take(perPage);
+    }
     const [courses, totalItems] = await queryBuilder.getManyAndCount();
     return { courses, totalItems };
-    
   }
-  
-  
-
 
   async findById(id: string): Promise<Course> {
     const course = await this.courseRepository.findOne(id);

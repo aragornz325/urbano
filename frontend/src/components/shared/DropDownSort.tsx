@@ -3,30 +3,33 @@ import { ChevronDown } from 'react-feather';
 
 interface DropdownSortProps {
   options: { label: string; value: string }[];
-  onSelect: (value: string) => void;
+  onChange: (value: string) => void;
   selected: string;
 }
 
 export default function DropdownSort({
   options,
-  onSelect,
+  onChange,
   selected,
 }: DropdownSortProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
+
   const handleSelect = (value: string) => {
-    onSelect(value);
+    onChange(value);
     setIsOpen(false);
   };
 
   return (
     <div className="inline-block relative text-left">
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center px-3 py-2 bg-white rounded border border-gray-300 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
+        onClick={toggleDropdown}
+        className="flex items-center px-3 py-2 bg-white rounded border border-gray-300 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
       >
         <span>
-          {options.find((option) => option.value === selected)?.label}
+          {options.find((option) => option.value === selected)?.label ||
+            'Select'}
         </span>
         <ChevronDown className="ml-2" size={18} />
       </button>
@@ -37,7 +40,7 @@ export default function DropdownSort({
               key={option.value}
               onClick={() => handleSelect(option.value)}
               className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 ${
-                selected === option.value ? 'font-bold' : ''
+                selected === option.value ? 'font-semibold' : ''
               }`}
             >
               {option.label}

@@ -21,12 +21,10 @@ export default function Table({
   onSort,
   props,
 }: TableProps) {
-  const sortOptions = columns
-    .filter((column) => ['Name', 'Description', 'Created'].includes(column))
-    .map((column) => ({
-      label: column,
-      value: column.toLowerCase(),
-    }));
+  const sortOptions = columns.map((column) => ({
+    label: column,
+    value: column.toLowerCase(),
+  }));
 
   const handleSortChange = (field: string) => {
     const newOrder =
@@ -34,30 +32,52 @@ export default function Table({
     onSort(field, newOrder);
   };
 
+  const handleDropdownSortChange = (value: string) => {
+    const selectedOrder = value.includes('asc') ? 'asc' : 'desc';
+    const selectedField = value.replace(/_(asc|desc)$/, '');
+    onSort(selectedField, selectedOrder as 'asc' | 'desc');
+  };
+
   return (
     <div className="w-full">
+      <div className="mb-4">
+        <DropdownSort
+          options={sortOptions
+            .map((option) => ({
+              label: `${option.label} Asc`,
+              value: `${option.value}_asc`,
+            }))
+            .concat(
+              sortOptions.map((option) => ({
+                label: `${option.label} Desc`,
+                value: `${option.value}_desc`,
+              })),
+            )}
+          onChange={(value) => handleDropdownSortChange(value)}
+          selected={
+            orderBy ? `${orderBy}_${order}` : `${sortOptions[0].value}_asc`
+          }
+        />
+      </div>
+
       <table className="w-full" {...props}>
         <thead className="bg-gray-100 dark:bg-gray-800">
           <tr>
             {columns.map((column, index) => (
               <CustomsTh key={index} label={column}>
-                {column === orderBy ? (
-                  <div className="flex gap-1 items-center">
-                    <span>{column}</span>
-                    <button
-                      onClick={() => handleSortChange(column.toLowerCase())}
-                      className="focus:outline-none"
-                    >
-                      {order === 'asc' ? (
-                        <ChevronUp size={16} />
-                      ) : (
-                        <ChevronDown size={16} />
-                      )}
-                    </button>
-                  </div>
-                ) : (
-                  column
-                )}
+                <div className="flex gap-1 items-center">
+                  <span>{column}</span>
+                  <button
+                    onClick={() => handleSortChange(column.toLowerCase())}
+                    className="focus:outline-none"
+                  >
+                    {order === 'asc' && orderBy === column.toLowerCase() ? (
+                      <ChevronUp size={16} />
+                    ) : (
+                      <ChevronDown size={16} />
+                    )}
+                  </button>
+                </div>
               </CustomsTh>
             ))}
             <CustomsTh label="Actions" className="text-center w-[120px]" />
