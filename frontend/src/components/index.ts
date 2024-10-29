@@ -24,11 +24,13 @@ import ErrorMessage from './Profile/ErrorMessage';
 import ProfileHeader from './Profile/ProfileHeader';
 import UpdateProfile from './Profile/UpdateProfile';
 import UpdateProfileForm from './Profile/UpdateProfileForm';
+import AddButton from './shared/AddButton';
 import ControlButtons from './shared/ControlButtons';
 import CustomButton from './shared/CustomButtom';
 import DropdownSort from './shared/DropDownSort';
 import Modal from './shared/Modal';
 import PaginationControls from './shared/PaginationControl';
+import ReloadButton from './shared/ReloadButton';
 import Table from './shared/Table';
 import TableItem from './shared/TableItem';
 import StatCard from './stats/StatsCard';
@@ -41,6 +43,7 @@ import UserRow from './users/UserRow';
 import UsersTable from './users/UsersTable';
 
 export {
+  AddButton,
   AddContentModal,
   AddCourseForm,
   AddUserModal,
@@ -70,6 +73,7 @@ export {
   Modal,
   PaginationControls,
   ProfileHeader,
+  ReloadButton,
   StatCard,
   Table,
   TableItem,

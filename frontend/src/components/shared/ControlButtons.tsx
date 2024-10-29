@@ -1,5 +1,7 @@
 import { Plus, RefreshCw } from 'react-feather';
 
+import { AddButton, ReloadButton } from '../../components';
+
 interface ControlButtonsProps {
   onAddClick: () => void;
   onRefreshClick: () => void;
@@ -10,19 +12,13 @@ export default function ControlButtons({
   onRefreshClick,
 }: ControlButtonsProps) {
   return (
-    <div className="flex flex-col gap-2 justify-between my-5 sm:flex-row">
-      <button
-        className="flex gap-2 justify-center w-full btn sm:w-auto"
-        onClick={onAddClick}
-      >
+    <div className="flex flex-col gap-4 justify-center items-center my-5 w-full sm:flex-row">
+      <AddButton onClick={onAddClick}>
         <Plus /> Add Course
-      </button>
-      <button
-        className="flex gap-2 justify-center w-full btn sm:w-auto"
-        onClick={onRefreshClick}
-      >
+      </AddButton>
+      <ReloadButton onClick={onRefreshClick}>
         <RefreshCw /> Refresh
-      </button>
+      </ReloadButton>
     </div>
   );
 }

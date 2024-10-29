@@ -4,7 +4,12 @@ import { useQuery } from 'react-query';
 
 import { Layout, Modal } from '../components';
 import { CoursesTable } from '../components';
-import { AddCourseForm, ControlButtons } from '../components';
+import {
+  AddButton,
+  AddCourseForm,
+  ControlButtons,
+  ReloadButton,
+} from '../components';
 import useAuth from '../hooks/useAuth';
 import { Course } from '../models/course/Course';
 import CreateCourseRequest from '../models/course/CreateCourseRequest';

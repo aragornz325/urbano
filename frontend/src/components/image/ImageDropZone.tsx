@@ -40,9 +40,11 @@ export default function ImageDropzone({
     >
       <input {...getInputProps()} />
       {isDragActive ? (
-        <p>Drop the image here...</p>
+        <p className="text-center">Drop the image here...</p>
       ) : (
-        <p>Drag and drop an image here, or click to select</p>
+        <p className="text-center dark:text-gray-300">
+          Drag and drop an image here, or click to select
+        </p>
       )}
     </div>
   );

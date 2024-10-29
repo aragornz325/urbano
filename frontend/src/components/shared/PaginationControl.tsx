@@ -36,11 +36,16 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   };
 
   return (
-    <div className="flex justify-between items-center mt-5">
+    <div className="flex justify-between items-center mt-5 w-full">
       <CustomButton
         onClick={handlePreviousPage}
         disabled={currentPage === 1}
         text="Previous"
+        className={`px-4 py-2 rounded-md ${
+          currentPage === 1
+            ? 'bg-gray-300 cursor-not-allowed'
+            : 'bg-brand-secondary hover:bg-brand-primary text-white'
+        }`}
       />
 
       <div className="flex space-x-2">
@@ -49,10 +54,10 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
             key={index}
             onClick={() => handlePageSelect(index + 1)}
             disabled={currentPage === index + 1}
-            className={`px-2 py-1 ${
+            className={`px-3 py-1 rounded-full transition-colors ${
               currentPage === index + 1
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200'
+                ? 'bg-brand-primary text-white'
+                : 'bg-gray-200 hover:bg-brand-secondary hover:text-white'
             }`}
           >
             {index + 1}
@@ -64,6 +69,11 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
         onClick={handleNextPage}
         disabled={!hasNextPage}
         text="Next"
+        className={`px-4 py-2 rounded-md ${
+          !hasNextPage
+            ? 'bg-gray-300 cursor-not-allowed'
+            : 'text-white bg-brand-secondary hover:bg-brand-primary'
+        }`}
       />
     </div>
   );
