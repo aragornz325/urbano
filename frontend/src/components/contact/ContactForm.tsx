@@ -28,24 +28,29 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
-      <ContactInput
-        label="Name"
-        placeholder="Your Name"
-        {...register('name', { required: true })}
-      />
-      <ContactInput
-        label="Email"
-        type="email"
-        placeholder="Your Email"
-        {...register('email', { required: true })}
-      />
-      <ContactTextarea
-        label="Message"
-        placeholder="Your Message"
-        {...register('message', { required: true })}
-      />
-      <ContactButton isSubmitting={formState.isSubmitting} />
+    <form
+      className="flex flex-col gap-1 bg-brand-header_background dark:bg-brand-header_background"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="flex flex-col gap-2 p-2">
+        <ContactInput
+          label="Name"
+          placeholder="Your Name"
+          {...register('name', { required: true })}
+        />
+        <ContactInput
+          label="Email"
+          type="email"
+          placeholder="Your Email"
+          {...register('email', { required: true })}
+        />
+        <ContactTextarea
+          label="Message"
+          placeholder="Your Message"
+          {...register('message', { required: true })}
+        />
+        <ContactButton isSubmitting={formState.isSubmitting} />
+      </div>
     </form>
   );
 };

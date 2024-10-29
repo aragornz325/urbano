@@ -25,7 +25,7 @@ export const UsersTableList: React.FC<UsersTableProps> = ({
   }
 
   return (
-    <table className="mt-5 w-full table-auto">
+    <table className="mt-5 w-full table-auto bg-brand-header_background">
       <thead>
         <tr>
           <th>First Name</th>

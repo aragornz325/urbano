@@ -6,7 +6,11 @@ interface ContactButtonProps {
 }
 
 const ContactButton: React.FC<ContactButtonProps> = ({ isSubmitting }) => (
-  <button className="w-full btn" type="submit" disabled={isSubmitting}>
+  <button
+    className="w-full transition-all duration-300 btn hover:scale-105"
+    type="submit"
+    disabled={isSubmitting}
+  >
     {isSubmitting ? (
       <Loader className="mx-auto animate-spin" />
     ) : (

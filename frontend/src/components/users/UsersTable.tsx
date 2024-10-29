@@ -58,7 +58,7 @@ export default function UsersTable({
         <Loader className="mx-auto animate-spin" />
       ) : (
         <div className="overflow-x-auto w-full rounded-lg shadow">
-          <table className="mt-3 w-full bg-white divide-y divide-gray-200 dark:bg-dark-background">
+          <table className="mt-3 w-full divide-y divide-gray-200 bg-brand-header_background dark:bg-dark-background">
             <thead className="bg-gray-100 dark:bg-gray-800">
               <tr>
                 <CustomsTh label="First Name" />

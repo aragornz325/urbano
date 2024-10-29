@@ -102,7 +102,7 @@ export default function CoursesTable({
 
   return (
     <>
-      <div className="table-container dark:bg-gray-800">
+      <div className="table-container bg-brand-header_background dark:bg-gray-800">
         <Table
           columns={['Name', 'Description', 'Image', 'Created']}
           orderBy={orderBy}

@@ -8,10 +8,10 @@ interface ContactInputProps extends InputHTMLAttributes<HTMLInputElement> {
 const ContactInput = forwardRef<HTMLInputElement, ContactInputProps>(
   ({ label, ...props }, ref) => (
     <div className="flex flex-col">
-      <label className="mb-2 font-semibold dark:text-white">{label}</label>
+      <label className="mb-2 font-semibold dark:text-black">{label}</label>
       <input
         ref={ref}
-        className="w-full input dark:bg-gray-700 dark:text-white"
+        className="w-full min-h-10input dark:bg-gray-700 dark:text-white"
         {...props}
       />
     </div>

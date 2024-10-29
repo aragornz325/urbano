@@ -9,7 +9,7 @@ interface ContactTextareaProps
 const ContactTextarea = forwardRef<HTMLTextAreaElement, ContactTextareaProps>(
   ({ label, ...props }, ref) => (
     <div className="flex flex-col">
-      <label className="mb-2 font-semibold dark:text-white">{label}</label>
+      <label className="mb-2 font-semibold dark:text-black">{label}</label>
       <textarea
         ref={ref}
         className="w-full input dark:bg-gray-700 dark:text-white"

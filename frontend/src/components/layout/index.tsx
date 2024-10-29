@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import { Menu, X } from 'react-feather';
 
 import { Header } from '../../components';
@@ -11,6 +11,24 @@ interface LayoutProps {
   subtitle?: string;
 }
 
+const ToggleSidebarButton = ({
+  isSidebarVisible,
+  onClick,
+}: {
+  isSidebarVisible: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    aria-label={isSidebarVisible ? 'Cerrar menú lateral' : 'Abrir menú lateral'}
+    className={`fixed bottom-5 border shadow-md bg-white p-3 rounded-full transition-all focus:outline-none lg:hidden ${
+      isSidebarVisible ? 'right-5' : 'left-5'
+    }`}
+    onClick={onClick}
+  >
+    {isSidebarVisible ? <X size={30} /> : <Menu size={30} />}
+  </button>
+);
+
 export default function Layout({
   children,
   title,
@@ -19,6 +37,10 @@ export default function Layout({
 }: LayoutProps) {
   const [showSidebar, setShowSidebar] = useState(false);
 
+  const toggleSidebar = useCallback(() => {
+    setShowSidebar((prev) => !prev);
+  }, []);
+
   return (
     <>
       <Sidebar className={showSidebar ? 'show' : ''} />
@@ -26,14 +48,10 @@ export default function Layout({
         <Header title={title} subtitle={subtitle} icon={icon} />
         {children}
       </div>
-      <button
-        className={`fixed bottom-5 border shadow-md bg-white p-3 rounded-full transition-all focus:outline-none lg:hidden ${
-          showSidebar ? 'right-5' : 'left-5'
-        }`}
-        onClick={() => setShowSidebar(!showSidebar)}
-      >
-        {showSidebar ? <X size={30} /> : <Menu size={30} />}
-      </button>
+      <ToggleSidebarButton
+        isSidebarVisible={showSidebar}
+        onClick={toggleSidebar}
+      />
     </>
   );
 }

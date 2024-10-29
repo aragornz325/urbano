@@ -10,7 +10,8 @@ services:
       POSTGRES_PASSWORD: IjSJmKN1fc#DZBL*NHbVoxIh65JvsFFDO@so
     volumes:
       - db_data:/var/lib/postgresql/data
-  
+      - ./backend/data/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+
   database_dev:
     image: postgres:alpine
     container_name: database_dev

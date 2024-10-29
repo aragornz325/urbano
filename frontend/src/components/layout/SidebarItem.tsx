@@ -27,19 +27,19 @@ export default function SidebarItem({
       className={`flex items-center gap-2 w-full sm:w-auto justify-between no-underline rounded-lg px-4 py-2 transition-colors duration-200 ${
         active || isClicked
           ? 'animate-customPulse bg-dark-primary'
-          : 'bg-gray-300'
+          : 'bg-brand-header_background dark:bg-gray-700'
       }`}
     >
       <div
         className={`flex-shrink-0 text-2xl ${
-          active ? 'text-black' : 'text-gray-500'
+          active ? 'text-black' : 'text-gray-500 dark:text-white'
         }`}
       >
         {children[0]}
       </div>
       <span
         className={`flex-grow font-semibold text-center ${
-          active ? 'text-black' : 'text-gray-500'
+          active ? 'text-black' : 'text-gray-500 dark:text-white'
         }`}
       >
         {children[1]}

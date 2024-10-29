@@ -6,6 +6,7 @@ import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './common/filters/ExceptionFilter';
 import { Role } from './enums/role.enum';
 import { User } from './user/entity/user.entity';
 
@@ -27,6 +28,7 @@ async function createAdminOnFirstUse() {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new AllExceptionsFilter());
   app.setGlobalPrefix('api');
   app.enableCors();
   app.use(morgan('combined'));

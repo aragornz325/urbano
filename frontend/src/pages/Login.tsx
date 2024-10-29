@@ -60,17 +60,15 @@ export default function Login() {
   };
 
   return (
-    <div className="h-full flex justify-center items-center">
-      <div className="card shadow">
-        <h1 className="mb-3 text-center font-semibold text-4xl">Login</h1>
-        <hr />
-        <form
-          className="flex flex-col gap-5 mt-8 w-64"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+    <div className="flex justify-center items-center h-full bg-gray-100 dark:bg-gray-900">
+      <div className="p-8 w-full max-w-md bg-white rounded-lg shadow-lg dark:bg-gray-800">
+        <h1 className="mb-5 text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+          Login
+        </h1>
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
           <input
             type="text"
-            className="input sm:text-lg"
+            className="p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-lg"
             placeholder="Username"
             required
             disabled={isSubmitting || isWaiting}
@@ -78,30 +76,30 @@ export default function Login() {
           />
           <input
             type="password"
-            className="input sm:text-lg"
+            className="p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-lg"
             placeholder="Password"
             required
             disabled={isSubmitting || isWaiting}
             {...register('password')}
           />
           <button
-            className="btn mt-3 sm:text-lg"
+            className="p-3 w-full font-semibold text-white rounded-lg transition bg-brand-secondary dark:bg-brand-primary hover:bg-brand-primary dark:hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed sm:text-lg"
             type="submit"
             disabled={isSubmitting || isWaiting}
           >
             {isSubmitting ? (
-              <Loader className="animate-spin mx-auto" />
+              <Loader className="mx-auto animate-spin" />
             ) : (
               'Login'
             )}
           </button>
-          {error ? (
-            <div className="text-red-500 p-3 font-semibold border rounded-md bg-red-50">
+          {error && (
+            <div className="p-3 font-semibold text-red-600 bg-red-100 rounded-lg border border-red-300 dark:bg-red-800 dark:text-red-200 dark:border-red-700">
               {error}
             </div>
-          ) : null}
+          )}
           {isWaiting && (
-            <div className="text-red-500 p-3 font-semibold border rounded-md bg-red-50">
+            <div className="p-3 font-semibold text-yellow-700 bg-yellow-100 rounded-lg border border-yellow-300 dark:bg-yellow-800 dark:text-yellow-200 dark:border-yellow-700">
               Too many failed attempts. Please wait 3 minutes before trying
               again.
             </div>

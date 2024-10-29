@@ -60,7 +60,7 @@ export default function Table({
         />
       </div>
 
-      <table className="w-full" {...props}>
+      <table className="w-full bg-brand-header_background" {...props}>
         <thead className="bg-gray-100 dark:bg-gray-800">
           <tr>
             {columns.map((column, index) => (
