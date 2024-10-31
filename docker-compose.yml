@@ -36,7 +36,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      - NODE_OPTIONS=--openssl-legacy-provider # Agregar esta línea
+      - NODE_OPTIONS=--openssl-legacy-provider
     ports:
         - "3000:3000"
     depends_on:
